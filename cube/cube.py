@@ -76,4 +76,14 @@ class Cube:
         return:
             boolean value True or False.
         """
-        return False
+        """
+            travsal each cube faces and compare the first element with the rest elements.
+            if they are different, return false;
+        """
+        for i in range(6):
+            face = self.cube[i]
+            simple_color = face[0]
+            for color in face:
+                if color != simple_color:
+                    return False
+        return True;
