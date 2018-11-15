@@ -7,6 +7,7 @@ Implementation the game interface of rubik's cube.
 """
 
 from Tkinter import *
+import time
 
 from cube import Cube
 
@@ -18,7 +19,7 @@ class Interface(Frame):
         interface = Interface()
         interface.mainloop()
     """
-    def __init__(self, master=None):
+    def __init__(self, master=None, cube=None):
         """
         Initialize game Interface.
         """
@@ -43,6 +44,7 @@ class Interface(Frame):
                         ]
         self.cubeColor = {'r': 'red', 'b': 'blue', 'y': 'yellow', 'w': 'white',
                           'o': 'orange', 'g': 'green'}
+        self.cube = Cube() if cube is None else cube
         Frame.__init__(self, master)
         # Set title
         self.master.title('ASU CSE571 Rubik\'s Cube')
@@ -52,6 +54,7 @@ class Interface(Frame):
         self.master.resizable(0, 0)
         self.pack()
         self.__createWidgets()
+
 
     def __createWidgets(self):
         """
@@ -64,24 +67,43 @@ class Interface(Frame):
         self.cv['height'] = '440' # Height of canvas
         self.cv['width'] = '560' # Width of canvas
         self.cv.place(x=0, y=0)
-        self.__drawCube(self.cv)
+        self.__drawCube()
 
-    def __drawCube(self, canvas, cube=None):
+
+    def __drawCube(self):
         """
         Draw rubik cube in given canvas.
         """
-        cube = Cube()
-        cube.F()
         for x in range(6):
             for y in range(3):
                 for z in range(3):
                     pos = self.cubePos[x][y][z]
-                    color = self.cubeColor[cube.cube[x][y][z]]
-                    canvas.create_rectangle(pos[0], pos[1], pos[0]+40, pos[1]+40,
+                    color = self.cubeColor[self.cube.cube[x][y][z]]
+                    self.cv.create_rectangle(pos[0], pos[1], pos[0]+40, pos[1]+40,
                                             fill=color, width='2')
+
+
+    def runInstruction(self, instructions, interval=0.5):
+        """
+        Run given instructions.
+        Example: instructions="LRDULRD"
+
+        interval used to control the time delay between each move.
+        """
+        for instruction in instructions:
+            print(instruction)
+            try:
+                getattr(self.cube, instruction)()
+            except AttributeError:
+                print("Invalid instruction: {}".format(instruction))
+                return
+            self.__drawCube()
+            self.master.update()
+            time.sleep(interval)
 
 
 if __name__ == '__main__':
     root = Tk()
     interface = Interface(root)
+    interface.runInstruction("FLRFDUFLFRFD")
     root.mainloop()
