@@ -8,6 +8,7 @@ Implementation the game interface of rubik's cube.
 
 from Tkinter import *
 import time
+import threading
 
 from cube import Cube
 
@@ -51,7 +52,7 @@ class Interface(Frame):
         # Set size of window
         self.master.geometry("560x560+10+150")
         # Disable resize
-        self.master.resizable(0, 0)
+        self.master.resizable(False, False)
         self.pack()
         self.__createWidgets()
 
@@ -82,8 +83,7 @@ class Interface(Frame):
                     self.cv.create_rectangle(pos[0], pos[1], pos[0]+40, pos[1]+40,
                                             fill=color, width='2')
 
-
-    def runInstruction(self, instructions, interval=0.5):
+    def runInstructions(self, instructions, interval):
         """
         Run given instructions.
         Example: instructions="LRDULRD"
@@ -91,13 +91,11 @@ class Interface(Frame):
         interval used to control the time delay between each move.
         """
         for instruction in instructions:
-            #print(instruction)
-            #print(self.cube.cube)
             try:
                 getattr(self.cube, instruction)()
             except AttributeError:
                 print("Invalid instruction: {}".format(instruction))
-                return
+                raise ValueError('input instructions invalid.')
             self.__drawCube()
             self.master.update()
             time.sleep(interval)
@@ -106,6 +104,41 @@ class Interface(Frame):
 if __name__ == '__main__':
     root = Tk()
     interface = Interface(root)
-    #interface.runInstruction("D", interval=0.3)
-    interface.runInstruction("FLRFDUFLFRFD", interval=0.3)
+    #interface.runInstructions("FLRFDUFLFRFD", 0.3)
+    root.after(0, interface.runInstructions, "FLRFDUFLFRFD", 0.3)
     root.mainloop()
+
+""" Multithread Version backup
+in class Interface:
+    def runInstructions(self, instructions, interval):
+        self.queue = Queue.Queue()
+        InstructionRunner(self.queue, self, instructions, interval=interval).start()
+        self.master.after(100, self.__check_queue)
+
+    def __check_queue(self):
+        try:
+            msg = self.queue.get(0)
+        except Queue.Empty:
+            self.master.after(100, self.__check_queue)
+
+class InstructionRunner(threading.Thread):
+    def __init__(self, queue, interface, instructions, interval=0.3):
+        threading.Thread.__init__(self)
+        self.queue = queue
+        self.instructions = instructions
+        self.interval = interval
+        self.interface = interface
+
+    def run(self):
+        for instruction in self.instructions:
+            print(instruction)
+            try:
+                getattr(self.interface.cube, instruction)()
+            except AttributeError:
+                print("Invalid instruction: {}".format(instruction))
+                raise ValueError('input instructions invalid.')
+            self.interface.drawCube()
+            self.interface.master.update()
+            time.sleep(self.interval)
+        self.queue.put("Finished")
+"""
