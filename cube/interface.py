@@ -92,6 +92,7 @@ class Interface(Frame):
         """
         for instruction in instructions:
             #print(instruction)
+            #print(self.cube.cube)
             try:
                 getattr(self.cube, instruction)()
             except AttributeError:
@@ -105,6 +106,6 @@ class Interface(Frame):
 if __name__ == '__main__':
     root = Tk()
     interface = Interface(root)
-    interface.runInstruction("D", interval=0.3)
-    #interface.runInstruction("FLRFDUFLFRFD")
+    #interface.runInstruction("D", interval=0.3)
+    interface.runInstruction("FLRFDUFLFRFD", interval=0.3)
     root.mainloop()
