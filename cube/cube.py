@@ -111,4 +111,11 @@ class Cube:
         return:
             boolean value True or False.
         """
-        return False
+        for i in range(6):
+            color_set = set()
+            for j in range(3):
+                for k in range(3):
+                    color_set.add(self.cube[i][j][k])
+            if len(color_set) != 1:
+                return False
+        return True
