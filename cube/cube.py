@@ -77,17 +77,22 @@ class Cube:
             reverse: optional. Default value is False. When it's True, will do f
                 operation instead of F operation.
         """
-        # Rotate Front side
-        self.cube[0] = zip(*self.cube[0][::-1])
-        # Rotate Other 4 sides
-        value = []
-        for i in range(12):
-            pos = self._neighbors[0][i]
-            value.append(self.cube[pos[0]][pos[1]][pos[2]])
-        value = value[9:] + value[:9]
-        for i in range(12):
-            pos = self._neighbors[0][i]
-            self.cube[pos[0]][pos[1]][pos[2]] = value[i]
+        if not reverse:
+            # Rotate Front side
+            self.cube[0] = zip(*self.cube[0][::-1])
+            # Rotate Other 4 sides
+            value = []
+            for i in range(12):
+                pos = self._neighbors[0][i]
+                value.append(self.cube[pos[0]][pos[1]][pos[2]])
+            value = value[9:] + value[:9]
+            for i in range(12):
+                pos = self._neighbors[0][i]
+                self.cube[pos[0]][pos[1]][pos[2]] = value[i]
+        else:
+            self.F()
+            self.F()
+            self.F()
 
 
     def B(self, reverse=False):
