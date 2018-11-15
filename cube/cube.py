@@ -112,9 +112,3 @@ class Cube:
             boolean value True or False.
         """
         return False
-
-if __name__ == '__main__':
-    cube = Cube()
-    print(cube.cube)
-    cube.F()
-    print(cube.cube)
