@@ -22,7 +22,6 @@ class Cube:
         See: https://en.wikipedia.org/wiki/Rubik%27s_Cube
 
     """
-
     def __init__(self, layout=None):
         """
         Initialize a 3*3 rubik's cube.
@@ -36,17 +35,6 @@ class Cube:
                 a valid layout. The order of rows must be same as the cube
                 defination above.
         """
-
-        # Neibors of each side
-        self._neighbors = [[(4, 2, 0), (4, 2, 1), (4, 2, 2),
-                            (2, 0, 0), (2, 1, 0), (2, 2, 0),
-                            (5, 0, 2), (5, 0, 1), (5, 0, 0),
-                            (3, 2, 2), (3, 1, 2), (3, 0, 2)],
-                           [2, 3, 4, 5],
-                           [0, 1, 4, 5],
-                           [0, 1, 4, 5],
-                           [0, 1, 2, 3],
-                           [0, 1, 2, 3]]
 
         # init cube
         if layout is None:
@@ -67,48 +55,103 @@ class Cube:
                     for j in range(3):
                         self.cube[i].append(layout[i*9+j*3:i*9+(j+1)*3])
 
-    def F(self, reverse=False):
+
+    def __operation(self, side):
+        """
+        Helper function for F, B, R, L, U, D operation functions.
+            __operation(0) is same as F().
+            __operation(1) is same as B().
+        """
+        # Neibors of each side
+        neighbors = [[(4, 2, 0), (4, 2, 1), (4, 2, 2),
+                      (2, 0, 0), (2, 1, 0), (2, 2, 0),
+                      (5, 0, 2), (5, 0, 1), (5, 0, 0),
+                      (3, 2, 2), (3, 1, 2), (3, 0, 2)],
+                     [(4, 0, 2), (4, 0, 1), (4, 0, 0),
+                      (3, 0, 0), (3, 1, 0), (3, 2, 0),
+                      (5, 2, 0), (5, 2, 1), (5, 2, 2),
+                      (2, 2, 2), (2, 1, 2), (2, 0, 2)],
+                     [(4, 2, 2), (4, 1, 2), (4, 0, 2),
+                      (1, 0, 0), (1, 1, 0), (1, 2, 0),
+                      (5, 2, 2), (5, 1, 2), (5, 0, 2),
+                      (0, 2, 2), (0, 1, 2), (0, 0, 2)],
+                     [(4, 0, 0), (4, 1, 0), (4, 2, 0),
+                      (0, 0, 0), (0, 1, 0), (0, 2, 0),
+                      (5, 0, 0), (5, 1, 0), (5, 2, 0),
+                      (1, 2, 2), (1, 1, 2), (1, 0, 2)],
+                     [(1, 0, 2), (1, 0, 1), (1, 0, 0),
+                      (2, 0, 2), (2, 0, 1), (2, 0, 0),
+                      (0, 0, 2), (0, 0, 1), (0, 0, 0),
+                      (3, 0, 2), (3, 0, 1), (3, 0, 0)],
+                     [(0, 2, 0), (0, 2, 1), (0, 2, 2),
+                      (2, 2, 0), (2, 2, 1), (2, 2, 2),
+                      (1, 2, 0), (1, 2, 1), (1, 2, 2),
+                      (3, 2, 0), (3, 2, 1), (3, 2, 2)]]
+        # Rotate Front side
+        self.cube[side] = zip(*self.cube[side][::-1])
+        # Rotate Other 4 sides
+        value = []
+        for i in range(12):
+            pos = neighbors[side][i]
+            value.append(self.cube[pos[0]][pos[1]][pos[2]])
+        value = value[9:] + value[:9]
+        for i in range(12):
+            pos = neighbors[side][i]
+            self.cube[pos[0]][pos[1]][pos[2]] = value[i]
+
+    def F(self):
         """
         F operation.
         Rotate Front side by clockwise 90 degree.
         See: https://en.wikipedia.org/wiki/Rubik%27s_Cube
-
-        Args:
-            reverse: optional. Default value is False. When it's True, will do f
-                operation instead of F operation.
         """
-        if not reverse:
-            # Rotate Front side
-            self.cube[0] = zip(*self.cube[0][::-1])
-            # Rotate Other 4 sides
-            value = []
-            for i in range(12):
-                pos = self._neighbors[0][i]
-                value.append(self.cube[pos[0]][pos[1]][pos[2]])
-            value = value[9:] + value[:9]
-            for i in range(12):
-                pos = self._neighbors[0][i]
-                self.cube[pos[0]][pos[1]][pos[2]] = value[i]
-        else:
-            self.F()
-            self.F()
-            self.F()
+        self.__operation(0)
 
 
-    def B(self, reverse=False):
-        pass
+    def B(self):
+        """
+        F operation.
+        Rotate Back side by clockwise 90 degree.
+        See: https://en.wikipedia.org/wiki/Rubik%27s_Cube
+        """
+        self.__operation(1)
 
-    def R(self, reverse=False):
-        pass
 
-    def L(self, reverse=False):
-        pass
+    def R(self):
+        """
+        R operation.
+        Rotate Right side by clockwise 90 degree.
+        See: https://en.wikipedia.org/wiki/Rubik%27s_Cube
+        """
+        self.__operation(2)
 
-    def U(self, reverse=False):
-        pass
 
-    def D(self, reverse=False):
-        pass
+    def L(self):
+        """
+        L operation.
+        Rotate Left side by clockwise 90 degree.
+        See: https://en.wikipedia.org/wiki/Rubik%27s_Cube
+        """
+        self.__operation(3)
+
+
+    def U(self):
+        """
+        U operation.
+        Rotate Up side by clockwise 90 degree.
+        See: https://en.wikipedia.org/wiki/Rubik%27s_Cube
+        """
+        self.__operation(4)
+
+
+    def D(self):
+        """
+        D operation.
+        Rotate Down side by clockwise 90 degree.
+        See: https://en.wikipedia.org/wiki/Rubik%27s_Cube
+        """
+        self.__operation(5)
+
 
     def isSolved(self):
         """

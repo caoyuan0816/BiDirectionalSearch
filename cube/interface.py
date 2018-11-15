@@ -91,7 +91,7 @@ class Interface(Frame):
         interval used to control the time delay between each move.
         """
         for instruction in instructions:
-            print(instruction)
+            #print(instruction)
             try:
                 getattr(self.cube, instruction)()
             except AttributeError:
@@ -105,5 +105,6 @@ class Interface(Frame):
 if __name__ == '__main__':
     root = Tk()
     interface = Interface(root)
-    interface.runInstruction("FLRFDUFLFRFD")
+    interface.runInstruction("D", interval=0.3)
+    #interface.runInstruction("FLRFDUFLFRFD")
     root.mainloop()
