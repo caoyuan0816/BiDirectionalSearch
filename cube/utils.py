@@ -7,8 +7,14 @@ Tools for rubik cube project.
 """
 
 import random
+import os
 
 from cube import Cube
+
+# Set running path
+ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
+os.chdir(ROOT_PATH)
+TEST_PATH = ROOT_PATH + '/test'
 
 def generateRandomLayout(operationLength):
     """
@@ -31,3 +37,15 @@ def generateRandomLayout(operationLength):
             for k in range(3):
                 layout.append(cube.cube[i][j][k])
     return ','.join(layout)
+
+def generateRandomSingleTest(operationLength, testName):
+    """
+    Using generateRandomLayout function to generate and store a test case to
+    TEST_PATH.
+    """
+    layout = generateRandomLayout(operationLength)
+    with open(TEST_PATH + '/' + testName, 'w') as output:
+        output.write(layout)
+
+if __name__ == '__main__':
+    generateRandomSingleTest(12, 'rand_12_1')
