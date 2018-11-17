@@ -11,15 +11,31 @@ There are three primary mode:
         we will not show GUI, only print running result for each test layout.
 
 Usage:
-    -m or --mode [single | multi]
-    -l or --layout [random | layoutName]
-    -a or --algorithm [BFS | DFS | AS | BI]
+Positional arguments:
+    mode [single | multi]
+    layout [random | layoutName]
+    algorithm [BFS | DFS | AS | BI]
+
+Optional arguments:
+    -h, --help: to show help message
 """
 
 import os
+import argparse
 
 # Set running path
 ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
+os.chdir(ROOT_PATH)
+
+# Set arguments parser
+parser = argparse.ArgumentParser()
+parser.add_argument('mode', choices=['single', 'multi'], help='mode of current\
+                    running, must be [single | multi].')
+parser.add_argument('layout', help='test layout name.')
+parser.add_argument('algorithm', choices=['BFS', 'DFS', 'AS', 'BI'],
+                    help='algorithm used to solve current cube')
+args = parser.parse_args()
 
 if __name__ == '__main__':
     print(ROOT_PATH)
+    print(args.mode, args.layout, args.algorithm)
