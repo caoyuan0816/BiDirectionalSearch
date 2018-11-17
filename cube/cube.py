@@ -56,11 +56,21 @@ class Cube:
                         self.cube[i].append(layout[i*9+j*3:i*9+(j+1)*3])
 
 
+    def __str__(self):
+        """
+        Cube object to string.
+        """
+        return str(self.cube)
+
+
     def __operation(self, side):
         """
         Helper function for F, B, R, L, U, D operation functions.
             __operation(0) is same as F().
             __operation(1) is same as B().
+            .
+            .
+            .
         """
         # Neibors of each side
         neighbors = [[(4, 2, 0), (4, 2, 1), (4, 2, 2),
