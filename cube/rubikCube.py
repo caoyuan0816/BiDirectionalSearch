@@ -23,9 +23,13 @@ Optional arguments:
 import os
 import argparse
 
+from cube import Cube
+import interface
+
 # Set running path
 ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
 os.chdir(ROOT_PATH)
+TEST_PATH = ROOT_PATH + '/test'
 
 # Set arguments parser
 parser = argparse.ArgumentParser()
@@ -37,5 +41,31 @@ parser.add_argument('algorithm', choices=['BFS', 'DFS', 'AS', 'BI'],
 args = parser.parse_args()
 
 if __name__ == '__main__':
-    print(ROOT_PATH)
-    print(args.mode, args.layout, args.algorithm)
+    print('Test file path: {}'.format(
+        TEST_PATH
+    ))
+    print('Running mode: {}, layout: {}, algorithm: {}'.format(
+        args.mode, args.layout, args.algorithm
+    ))
+    print
+
+    try:
+        with open(TEST_PATH + '/' + args.layout, 'r') as data:
+            # Single mode
+            if args.mode == 'single':
+                layout = data.readline().strip('\n\r')
+                cube = Cube(layout)
+                print('Loaded layout: {}'.format(args.layout))
+                # Try to solve current cube
+                #TODO
+                # Start GUI and run instructions
+                interface.runSingleTest(cube, "", 0.3)
+            # Multi mode
+            else:
+                pass
+
+    except IOError:
+        print('Error: Cannot open layout file {}'.format(
+            TEST_PATH + '/' + args.layout
+        ))
+        exit()
