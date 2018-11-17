@@ -82,6 +82,7 @@ class Interface(Frame):
                     self.cv.create_rectangle(pos[0], pos[1], pos[0]+40, pos[1]+40,
                                             fill=color, width='2')
 
+
     def runInstructions(self, instructions, interval):
         """
         Run given instructions.
@@ -99,12 +100,10 @@ class Interface(Frame):
             self.master.update()
             time.sleep(interval)
 
-
-if __name__ == '__main__':
+def runSingleTest(cube, instructions, interval):
     root = Tk()
-    interface = Interface(root)
-    #interface.runInstructions("FLRFDUFLFRFD", 0.3)
-    root.after(0, interface.runInstructions, "FLRFDUFLFRFD", 0.3)
+    interface = Interface(root, cube)
+    root.after(0, interface.runInstructions, instructions, interval)
     root.mainloop()
 
 """ Multithread Version backup
