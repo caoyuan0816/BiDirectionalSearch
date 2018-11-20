@@ -105,7 +105,7 @@ class PriorityQueue:
     def isEmpty(self):
         return len(self.heap) == 0
 
-    
+
     #lower priority queue
     def update(self, item, priority):
 
