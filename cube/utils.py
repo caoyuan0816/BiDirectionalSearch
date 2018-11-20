@@ -8,7 +8,6 @@ Tools for rubik cube project.
 
 import random
 import os
-import heapq
 
 from cube import Cube
 
@@ -48,78 +47,6 @@ def generateRandomSingleTest(operationLength, testName):
     layout = generateRandomLayout(operationLength)
     with open(TEST_PATH + '/' + testName, 'w') as output:
         output.write(layout)
-
-"""
-    data structures from pacman
-"""
-
-class Stack:
-
-    def __init__(self):
-        self.list = []
-
-    def push(self,item):
-
-        self.list.append(item)
-
-    def pop(self):
-
-        return self.list.pop()
-
-    def isEmpty(self):
-
-        return len(self.list) == 0
-
-class Queue:
-
-    def __init__(self):
-        self.list = []
-
-    def push(self,item):
-
-        self.list.insert(0,item)
-
-    def dequeue(self):
-
-        return self.list.pop()
-
-    def isEmpty(self):
-
-        return len(self.list) == 0
-
-class PriorityQueue:
-
-    def  __init__(self):
-        self.heap = []
-        self.count = 0
-
-    def push(self, item, priority):
-        entry = (priority, self.count, item)
-        heapq.heappush(self.heap, entry)
-        self.count += 1
-
-    def pop(self):
-        (_, _, item) = heapq.heappop(self.heap)
-        return item
-
-    def isEmpty(self):
-        return len(self.heap) == 0
-
-
-    #lower priority queue
-    def update(self, item, priority):
-
-        for index, (p, c, i) in enumerate(self.heap):
-            if i == item:
-                if p <= priority:
-                    break
-                del self.heap[index]
-                self.heap.append((priority, c, item))
-                heapq.heapify(self.heap)
-                break
-        else:
-            self.push(item, priority)
-
 
 if __name__ == '__main__':
     generateRandomSingleTest(12, 'rand_12_1')
