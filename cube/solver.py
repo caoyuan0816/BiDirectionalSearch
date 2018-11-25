@@ -61,6 +61,20 @@ class BFS(Solver):
                     op
                     op
 
+
+            # check reverse ops
+            for op in self.ops:
+                op
+                op
+                op
+                if self.cube not in visited:
+                    solution.append(op)
+                    que.append(copy.deepcopy(self.cube))
+
+                else:
+                    #reverse
+                    op
+
         solution_str = ','.join(solution)
 
         return solution_str
@@ -103,6 +117,18 @@ class DFS(Solver):
                     op
                     op
 
+                # check reverse ops
+                for op in self.ops:
+                    op
+                    op
+                    op
+                    if self.cube not in visited:
+                        solution.append(op)
+                        stack.append(copy.deepcopy(self.cube))
+
+                    else:
+                        # reverse
+                        op
         return
         #pass
 
@@ -141,6 +167,19 @@ class AS(Solver):
                     op
                     op
                     op
+
+                # check reverse ops
+                for op in self.ops:
+                    op
+                    op
+                    op
+                    if self.cube not in visited:
+                        solution.append(op)
+                        queue.append(copy.deepcopy(self.cube))
+
+                    else:
+                        # reverse
+                        op
 
         return
         #pass
