@@ -46,7 +46,7 @@ class BFS(Solver):
 
             if cur_cube.isSolved():
                 self.result = cur_ops
-                return
+                return True
 
             for op in self.ops:
                 getattr(cur_cube, op)()
@@ -57,60 +57,32 @@ class BFS(Solver):
                 getattr(cur_cube, 'r'+op)()
 
         self.result = None
-        return
+        return False
 
 
 class DFS(Solver):
     """
     DFS solver.
     """
-    def solve(self):
+    def solve(self, visited=None, cube=None, ops=''):
+        if cube is None:
+            cube = copy.deepcopy(self.cube)
+            visited = set(cube.getLayoutStr())
 
-        from collections import deque
-        stack = deque()
+        if cube.isSolved():
+            self.result = ops
+            return True
 
-        stack.append(copy.deepcopy(self.cube))
-        solution = []
-        visited = []
-
-        while len(stack) != 0:
-            cur = stack.pop()
-            visited.append(copy.deepcopy(self.cube))
-
-            if cur.isSolved():
-                solution_str = ','.join(solution)
-
-                return solution_str
-
-
-            for op in self.ops:
-                op
-                if self.cube not in visited:
-                    solution.append(op)
-                    stack.append(copy.deepcopy(self.cube))
-
-
-                else:
-                    #reverse
-                    op
-                    op
-                    op
-
-                # check reverse ops
-                for op in self.ops:
-                    op
-                    op
-                    op
-                    if self.cube not in visited:
-                        solution.append(op)
-                        stack.append(copy.deepcopy(self.cube))
-
-                    else:
-                        # reverse
-                        op
-        return
-        #pass
-
+        for op in self.ops:
+            getattr(cube, op)()
+            layout = cube.getLayoutStr()
+            if layout not in visited:
+                visited.add(layout)
+                if self.solve(visited, cube, ops+str(op)):
+                    return True
+                #visited.remove(layout)
+            getattr(cube, 'r'+op)()
+        return False
 
 class AS(Solver):
     """
