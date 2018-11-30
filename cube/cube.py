@@ -44,6 +44,8 @@ class Cube:
                          [['o', 'o', 'o'], ['o', 'o', 'o'], ['o', 'o', 'o']],
                          [['w', 'w', 'w'], ['w', 'w', 'w'], ['w', 'w', 'w']],
                          [['y', 'y', 'y'], ['y', 'y', 'y'], ['y', 'y', 'y']]]
+            self.layout = "g,g,g,g,g,g,g,g,g,b,b,b,b,b,b,b,b,b,r,r,r,r,r,r,r,r,r,\
+                          o,o,o,o,o,o,o,o,o,w,w,w,w,w,w,w,w,w,y,y,y,y,y,y,y,y,y"
         else:
             if len(layout) != 107:
                 raise ValueError('input layout invalid.')
@@ -54,6 +56,7 @@ class Cube:
                     self.cube.append([])
                     for j in range(3):
                         self.cube[i].append(layout[i*9+j*3:i*9+(j+1)*3])
+                self.layout = layout
 
 
     def __str__(self):
