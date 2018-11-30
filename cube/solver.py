@@ -22,7 +22,8 @@ class Solver:
     """
     def __init__(self, cube):
         self.cube = cube
-        self.ops = ['F', 'B', 'R', 'L', 'U', 'D' ]
+        self.ops = ['F', 'B', 'R', 'L', 'U', 'D', 'rF', 'rB', 'rR', 'rL', 'rU', 'rD']
+        self.rops = ['rF', 'rB', 'rR', 'rL', 'rU', 'rD', 'F', 'B', 'R', 'L', 'U', 'D']
 
     def solve(self):
         pass
@@ -48,13 +49,13 @@ class BFS(Solver):
                 self.result = cur_ops
                 return True
 
-            for op in self.ops:
-                getattr(cur_cube, op)()
+            for o in range(12):
+                getattr(cur_cube, self.ops[o])()
                 layout = cur_cube.getLayoutStr()
                 if layout not in visited:
-                    que.append((layout, cur_ops+str(op)))
+                    que.append((layout, cur_ops+self.ops[o]))
                     visited.add(layout)
-                getattr(cur_cube, 'r'+op)()
+                getattr(cur_cube, self.rops[o])()
 
         self.result = None
         return False
@@ -73,16 +74,24 @@ class DFS(Solver):
             self.result = ops
             return True
 
-        for op in self.ops:
-            getattr(cube, op)()
+        for o in range(12):
+            getattr(cube, self.ops[o])()
             layout = cube.getLayoutStr()
             if layout not in visited:
                 visited.add(layout)
-                if self.solve(visited, cube, ops+str(op)):
+                if self.solve(visited, cube, ops+self.ops[o]):
                     return True
                 #visited.remove(layout)
-            getattr(cube, 'r'+op)()
+            getattr(cube, self.rops[o])()
         return False
+
+
+class BI(Solver):
+    """
+    Bi-directional Search solver
+    """
+    def solve(self):
+        pass
 
 class AS(Solver):
     """

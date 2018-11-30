@@ -82,6 +82,19 @@ class Interface(Frame):
                     self.cv.create_rectangle(pos[0], pos[1], pos[0]+40, pos[1]+40,
                                             fill=color, width='2')
 
+    def __parseInstructions(self, instructions):
+        """
+        """
+        res, i = [], 0
+        while i < len(instructions):
+            if instructions[i] == 'r':
+                res.append(instructions[i]+instructions[i+1])
+                i += 2
+            else:
+                res.append(instructions[i])
+                i += 1
+        return res
+
 
     def runInstructions(self, instructions, interval):
         """
@@ -90,7 +103,7 @@ class Interface(Frame):
 
         interval used to control the time delay between each move.
         """
-        for instruction in instructions:
+        for instruction in self.__parseInstructions(instructions):
             try:
                 getattr(self.cube, instruction)()
             except AttributeError:
