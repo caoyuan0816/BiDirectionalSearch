@@ -62,7 +62,7 @@ if __name__ == '__main__':
                 solver.solve()
                 result = solver.getResult()
                 print('Solved! Solution length: {}, Solution: {}'.format(
-                    len(result), result
+                    len(result), '->'.join(result)
                 ))
                 # Start GUI and run instructions
                 interface.runSingleTest(cube, result, 0.3)

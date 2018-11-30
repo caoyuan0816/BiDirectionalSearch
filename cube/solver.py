@@ -29,7 +29,21 @@ class Solver:
         pass
 
     def getResult(self):
-        return self.result
+        return self.__parseInstructions(self.result)
+
+    def __parseInstructions(self, instructions):
+        """
+        """
+        res, i = [], 0
+        while i < len(instructions):
+            if instructions[i] == 'r':
+                res.append(instructions[i]+instructions[i+1])
+                i += 2
+            else:
+                res.append(instructions[i])
+                i += 1
+        return res
+
 
 class BFS(Solver):
     """
