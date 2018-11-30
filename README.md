@@ -9,11 +9,11 @@ A course project for ASU CSE571.
 - We have implemented bi-directional search describe in the following paper: “Bidirectional Search That Is Guaranteed to Meet in the Middle”, Robert C. Holte, Ariel Felner,Guni Sharon, Nathan R. Sturtevant, AAAI 2016. 
 - We have applied your algorithm to the Rubik’s Cube problem.
 ## Compile and Install
-###Prerequirement
+### Prerequirement
 - Python
-##Fetch Project Source Code
+## Fetch Project Source Code
 git clone https://github.com/caoyuan0816/BiDirectionalSearch
-##compile
+## compile
 
 
 
