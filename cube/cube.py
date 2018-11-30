@@ -44,8 +44,6 @@ class Cube:
                          [['o', 'o', 'o'], ['o', 'o', 'o'], ['o', 'o', 'o']],
                          [['w', 'w', 'w'], ['w', 'w', 'w'], ['w', 'w', 'w']],
                          [['y', 'y', 'y'], ['y', 'y', 'y'], ['y', 'y', 'y']]]
-            self.layout = "g,g,g,g,g,g,g,g,g,b,b,b,b,b,b,b,b,b,r,r,r,r,r,r,r,r,r,\
-                          o,o,o,o,o,o,o,o,o,w,w,w,w,w,w,w,w,w,y,y,y,y,y,y,y,y,y"
         else:
             if len(layout) != 107:
                 raise ValueError('input layout invalid.')
@@ -56,7 +54,6 @@ class Cube:
                     self.cube.append([])
                     for j in range(3):
                         self.cube[i].append(layout[i*9+j*3:i*9+(j+1)*3])
-                self.layout = layout
 
 
     def __str__(self):
@@ -112,6 +109,14 @@ class Cube:
             pos = neighbors[side][i]
             self.cube[pos[0]][pos[1]][pos[2]] = value[i]
 
+    def getLayoutStr(self):
+        res = []
+        for i in range(6):
+            for j in range(3):
+                for k in range(3):
+                    res.append(self.cube[i][j][k])
+        return ','.join(res)
+
     def F(self):
         """
         F operation.
@@ -120,15 +125,33 @@ class Cube:
         """
         self.__operation(0)
 
+    def rF(self):
+        """
+        Reversed F operation.
+        Rotate Front side by clockwise 90 degree.
+        See: https://en.wikipedia.org/wiki/Rubik%27s_Cube
+        """
+        self.__operation(0)
+        self.__operation(0)
+        self.__operation(0)
 
     def B(self):
         """
-        F operation.
+        B operation.
         Rotate Back side by clockwise 90 degree.
         See: https://en.wikipedia.org/wiki/Rubik%27s_Cube
         """
         self.__operation(1)
 
+    def rB(self):
+        """
+        Reversed B operation.
+        Rotate Back side by clockwise 90 degree.
+        See: https://en.wikipedia.org/wiki/Rubik%27s_Cube
+        """
+        self.__operation(1)
+        self.__operation(1)
+        self.__operation(1)
 
     def R(self):
         """
@@ -136,6 +159,17 @@ class Cube:
         Rotate Right side by clockwise 90 degree.
         See: https://en.wikipedia.org/wiki/Rubik%27s_Cube
         """
+        self.__operation(2)
+
+
+    def rR(self):
+        """
+        Reversed R operation.
+        Rotate Right side by clockwise 90 degree.
+        See: https://en.wikipedia.org/wiki/Rubik%27s_Cube
+        """
+        self.__operation(2)
+        self.__operation(2)
         self.__operation(2)
 
 
@@ -148,6 +182,17 @@ class Cube:
         self.__operation(3)
 
 
+    def rL(self):
+        """
+        Reversed L operation.
+        Rotate Left side by clockwise 90 degree.
+        See: https://en.wikipedia.org/wiki/Rubik%27s_Cube
+        """
+        self.__operation(3)
+        self.__operation(3)
+        self.__operation(3)
+
+
     def U(self):
         """
         U operation.
@@ -157,12 +202,33 @@ class Cube:
         self.__operation(4)
 
 
+    def rU(self):
+        """
+        Reversed U operation.
+        Rotate Up side by clockwise 90 degree.
+        See: https://en.wikipedia.org/wiki/Rubik%27s_Cube
+        """
+        self.__operation(4)
+        self.__operation(4)
+        self.__operation(4)
+
+
     def D(self):
         """
         D operation.
         Rotate Down side by clockwise 90 degree.
         See: https://en.wikipedia.org/wiki/Rubik%27s_Cube
         """
+        self.__operation(5)
+
+    def rD(self):
+        """
+        Reversed D operation.
+        Rotate Down side by clockwise 90 degree.
+        See: https://en.wikipedia.org/wiki/Rubik%27s_Cube
+        """
+        self.__operation(5)
+        self.__operation(5)
         self.__operation(5)
 
 
