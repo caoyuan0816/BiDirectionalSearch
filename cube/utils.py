@@ -50,13 +50,11 @@ def generateRandomSingleTest(operationLength, testName):
         output.write(layout)
 
 if __name__ == '__main__':
-    generateRandomSingleTest(12, 'rand_12_1')
-
-    generateRandomSingleTest(9, 'rand_12_2')
-
-    generateRandomSingleTest(24, 'rand_12_3')
-
-    generateRandomSingleTest(100, 'rand_12_4')
+    generateRandomSingleTest(1, 'rand_1_1')
+    #generateRandomSingleTest(12, 'rand_12_1')
+    #generateRandomSingleTest(9, 'rand_12_2')
+    #generateRandomSingleTest(24, 'rand_12_3')
+    #generateRandomSingleTest(100, 'rand_12_4')
 
 
 class PriorityQueue:

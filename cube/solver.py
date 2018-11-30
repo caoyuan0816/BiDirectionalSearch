@@ -35,54 +35,36 @@ class BFS(Solver):
     BFS solver.
     """
     def solve(self):
-        # TODO
         from collections import deque
 
-        visited = []
-        que = deque()
-        que.append(copy.deepcopy(self.cube))
-        solution = []
+        visited = set([self.cube.getLayoutStr()])
+        que = deque([(self.cube.getLayoutStr(), '')])
 
-        while len(que) != 0 :
-            cur = que.popleft()
-            visited.append(copy.deepcopy(self.cube))
-            if cur.isSolved():
-                #invert list to str
-                solution_str = ','.join(solution)
+        while len(que) != 0:
+            cur_layout, cur_ops = que.popleft()
+            cur_cube = Cube(cur_layout)
 
-                return solution_str
+            if cur_cube.isSolved():
+                print('Solved')
+                self.result = cur_ops
+                return
+
             for op in self.ops:
-                op
-                if self.cube not in visited:
-                    solution.append(op)
-                    que.append(copy.deepcopy(self.cube))
+                getattr(cur_cube, op)()
+                layout = cur_cube.getLayoutStr()
+                if layout not in visited:
+                    que.append((layout, cur_ops+str(op)))
+                    visited.add(layout)
+                getattr(cur_cube, 'r'+op)()
 
-                else:
-                    #reverse
-                    op
-                    op
-                    op
-
-
-            # check reverse ops
-            for op in self.ops:
-                op
-                op
-                op
-                if self.cube not in visited:
-                    solution.append(op)
-                    que.append(copy.deepcopy(self.cube))
-
-                else:
-                    #reverse
-                    op
-        self.result = ','.join(solution)
+        self.result = None
+        return
 
 
 class DFS(Solver):
     """
-        DFS solver.
-        """
+    DFS solver.
+    """
     def solve(self):
 
         from collections import deque
