@@ -10,8 +10,10 @@ Including:
     A* solver. (called AS).
     Bi-directional Search solver. (called BI)
 """
+import copy
 
-from cube import Cube, utils
+from cube import Cube
+import utils
 
 
 class Solver:
@@ -74,11 +76,7 @@ class BFS(Solver):
                 else:
                     #reverse
                     op
-
-        solution_str = ','.join(solution)
-
-        return solution_str
-        #pass
+        self.result = ','.join(solution)
 
 
 class DFS(Solver):

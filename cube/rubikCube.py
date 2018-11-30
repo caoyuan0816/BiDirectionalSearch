@@ -25,6 +25,7 @@ import argparse
 
 from cube import Cube
 import interface
+import solver
 
 # Set running path
 ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
@@ -44,10 +45,9 @@ if __name__ == '__main__':
     print('Test file path: {}'.format(
         TEST_PATH
     ))
-    print('Running mode: {}, layout: {}, algorithm: {}'.format(
+    print('Running parameters: {}, layout: {}, algorithm: {}\n'.format(
         args.mode, args.layout, args.algorithm
     ))
-    print
 
     try:
         with open(TEST_PATH + '/' + args.layout, 'r') as data:
@@ -55,11 +55,15 @@ if __name__ == '__main__':
             if args.mode == 'single':
                 layout = data.readline().strip('\n\r')
                 cube = Cube(layout)
-                print('Loaded layout: {}'.format(args.layout))
+                print('Loaded layout: {}: {}\n'.format(args.layout, layout))
                 # Try to solve current cube
-                #TODO
+                print('Solving it using {} algorithm...'.format(args.algorithm))
+                solver = solver.BFS(cube)
+                solver.solve()
+                result = solver.getResult()
+                print(result)
                 # Start GUI and run instructions
-                interface.runSingleTest(cube, "", 0.3)
+                interface.runSingleTest(cube, result, 0.3)
             # Multi mode
             else:
                 pass
