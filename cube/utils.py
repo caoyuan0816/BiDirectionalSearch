@@ -29,10 +29,12 @@ def generateRandomLayout(operationLength):
     Return:
         - a string that represent generated cube.
     """
-    ops = ['F', 'B', 'R', 'L', 'U', 'D']
+    ops = ['F', 'B', 'R', 'L', 'U', 'D', 'rF', 'rB', 'rR', 'rL', 'rU', 'rD']
     cube = Cube()
     for i in range(operationLength):
-        getattr(cube, ops[random.randint(0, 5)])()
+        rand = random.randint(0, 11)
+        print(ops[rand])
+        getattr(cube, ops[rand])()
     layout = []
     for i in range(6):
         for j in range(3):
@@ -50,7 +52,7 @@ def generateRandomSingleTest(operationLength, testName):
         output.write(layout)
 
 if __name__ == '__main__':
-    generateRandomSingleTest(2, 'rand_2_1')
+    generateRandomSingleTest(8, 'rand_8_1')
     #generateRandomSingleTest(12, 'rand_12_1')
     #generateRandomSingleTest(9, 'rand_12_2')
     #generateRandomSingleTest(24, 'rand_12_3')
