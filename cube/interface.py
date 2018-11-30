@@ -99,6 +99,8 @@ class Interface(Frame):
             self.__drawCube()
             self.master.update()
             time.sleep(interval)
+        time.sleep(1)
+        exit()
 
 def runSingleTest(cube, instructions, interval):
     root = Tk()
