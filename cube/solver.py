@@ -45,7 +45,6 @@ class BFS(Solver):
             cur_cube = Cube(cur_layout)
 
             if cur_cube.isSolved():
-                print('Solved')
                 self.result = cur_ops
                 return
 
