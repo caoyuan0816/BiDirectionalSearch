@@ -62,16 +62,6 @@ class SearchProblem:
         util.raiseNotDefined()
 
 
-def tinyMazeSearch(problem):
-    """
-    Returns a sequence of moves that solves tinyMaze.  For any other maze, the
-    sequence of moves will be incorrect, so only use this for tinyMaze.
-    """
-    from game import Directions
-    s = Directions.SOUTH
-    w = Directions.WEST
-    return  [s, s, w, s, w, w, s, w]
-
 def depthFirstSearch(problem):
     """
     Search the deepest nodes in the search tree first.
@@ -145,47 +135,7 @@ def breadthFirstSearch(problem):
     return []
 
 
-def uniformCostSearch(problem):
-    """Search the node of least total cost first."""
-    from util import PriorityQueue
-    pq = PriorityQueue()
-    res = dict()
-    visited = set()
-
-    # Init queue and visited set
-    pq.push(problem.getStartState(), 0)
-    res[problem.getStartState()] = []
-
-    # Start UCS
-    while not pq.isEmpty():
-        cur_state = pq.pop()
-        path = res[cur_state]
-        visited.add(cur_state)
-        if problem.isGoalState(cur_state):
-            return path
-
-        valid_neighbor = filter(lambda x: x[0] not in visited, problem.getSuccessors(cur_state))
-        for nxt in valid_neighbor:
-            npath = path + [nxt[1]]
-            np = problem.getCostOfActions(npath)
-            # Update both path and priority queue
-            if nxt[0] not in res or (nxt[0] in res and problem.getCostOfActions(res[nxt[0]]) > np):
-                res[nxt[0]] = npath
-            pq.update(nxt[0], np)
-
-    # If no valid path can be found, return empty path
-    return []
-
-
-def nullHeuristic(state, problem=None):
-    """
-    A heuristic function estimates the cost from the current state to the nearest
-    goal in the provided SearchProblem.  This heuristic is trivial.
-    """
-    return 0
-
-
-def aStarSearch(problem, heuristic=nullHeuristic):
+def aStarSearch(problem, heuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
     from util import PriorityQueue
     pq = PriorityQueue()
@@ -216,8 +166,18 @@ def aStarSearch(problem, heuristic=nullHeuristic):
     return []
 
 
+def biDirectionalSearchMM0(problem, heuristic):
+    """
+    """
+    heuristic = None
+    pass
+
+def biDirectionalSearchMM(problem, heuristic):
+    pass
+
 # Abbreviations
 bfs = breadthFirstSearch
 dfs = depthFirstSearch
 astar = aStarSearch
-ucs = uniformCostSearch
+bd0 = biDirectionalSearchMM0
+bd = biDirectionalSearchMM
