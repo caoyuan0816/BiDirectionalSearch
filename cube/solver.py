@@ -93,24 +93,32 @@ class DFS(Solver):
             return True
 
         visited = set([self.cube.getLayout()])
-        stack = [(self.cube.getLayout(), '')]
+        stack = [self.cube.getLayout()]
+        ops = []
 
         while len(stack) != 0:
-            cur_layout, cur_ops = stack.pop()
+            cur_layout = stack[-1]
             cur_cube = Cube(cur_layout)
+            n_valid = 0
 
-            for o in range(12):
+            for o in range(11, -1, -1):
                 getattr(cur_cube, self.ops[o])()
                 layout = cur_cube.getLayout()
                 if layout not in visited:
+                    n_valid += 1
                     if Cube(layout).isSolved():
-                        self.result = cur_ops+self.ops[o]
+                        ops.append(self.ops[o])
+                        self.result = ''.join(ops)
                         self.expanded = len(visited)
                         return True
                     visited.add(layout)
-                    stack.append((layout, cur_ops+self.ops[o]))
-
+                    stack.append(layout)
+                    ops.append(self.ops[o])
+                    break
                 getattr(cur_cube, self.rops[o])()
+            if n_valid == 0:
+                stack.pop()
+                ops.pop()
 
         self.result = None
         return False
@@ -173,6 +181,7 @@ class BI(Solver):
 
         self.result = None
         return False
+
 
 class AS(Solver):
     """

@@ -59,9 +59,8 @@ def generateRandomMultiTest(operationLength, length, testName):
 
 
 if __name__ == '__main__':
-    #generateRandomSingleTest(1, 'rand_1_1')
-    for i in range(8, 13):
-        generateRandomMultiTest(i, 6, 'multi_rand_'+str(i))
+    generateRandomSingleTest(2, 'single_rand_2_1')
+    #generateRandomMultiTest(i, 6, 'multi_rand_'+str(i))
 
 
 class PriorityQueue:
