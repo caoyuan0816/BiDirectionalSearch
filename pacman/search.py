@@ -17,6 +17,7 @@ In search.py, you will implement generic search algorithms which are called by
 Pacman agents (in searchAgents.py).
 """
 
+from game import Directions
 import util
 
 class SearchProblem:
@@ -169,29 +170,47 @@ def aStarSearch(problem, heuristic):
 def biDirectionalSearchMM0(problem):
     """
     """
+    def __reversedPath(p):
+        return [Directions.REVERSE[x] for x in p][::-1]
+
     from util import Queue
     que1, que2 = Queue(), Queue()
-    visited1, visited2 = set(), set()
+    visited1, visited2 = dict(), dict()
 
-    startState = problem.getStartState()
+    que1.push((problem.getStartState(), [], 0))
+    que2.push((problem.goal, [], 0))
+    visited1[problem.getStartState()] = ''
+    visited2[problem.goal] = ''
+    expanding_level1, expanding_level2 = 0, 0
 
-    # Init queue and visited set
-    que1.push((startState, []))
+    while True:
+        if que1.isEmpty():
+            return []
+        while (not que1.isEmpty()) and que1.list[0][2] == expanding_level1:
+            cur_state, path, level = que1.pop()
 
-    que2.push(())
-    visited1.add(startState)
-    visited2.add()
+            if problem.isGoalStateBi(cur_state, visited2):
+                return path + __reversedPath(visited2[cur_state])
 
-    while not queue.isEmpty():
-        cur_state, path = queue.pop()
-        if problem.isGoalState(cur_state):
-            return path
-        # Avoid repeat visitting same node
-        valid_neighbor = filter(lambda x: x[0] not in visited, problem.getSuccessors(cur_state))
-        for nxt in valid_neighbor:
-            queue.push((nxt[0], path + [nxt[1]]))
-            visited.add(nxt[0])
-    # If no valid path can be found, return empty path
+            valid_neighbor = filter(lambda x: x[0] not in visited1, problem.getSuccessors(cur_state))
+            for nxt in valid_neighbor:
+                que1.push((nxt[0], path+[nxt[1]], level+1))
+                visited1[nxt[0]] = path+[nxt[1]]
+        expanding_level1 += 1
+
+        if que2.isEmpty():
+            return []
+        while (not que2.isEmpty()) and que2.list[0][2] == expanding_level2:
+            cur_state, path, level = que2.pop()
+
+            if problem.isGoalStateBi(cur_state, visited1):
+                return __reversedPath(visited1[cur_state]) + path
+
+            valid_neighbor = filter(lambda x: x[0] not in visited2, problem.getSuccessors(cur_state))
+            for nxt in valid_neighbor:
+                que2.push((nxt[0], path+[nxt[1]], level+1))
+                visited2[nxt[0]] = path+[nxt[1]]
+        expanding_level2 += 1
     return []
 
 
