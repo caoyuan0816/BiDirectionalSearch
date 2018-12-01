@@ -44,8 +44,6 @@ class SearchAgent(Agent):
       depthFirstSearch or dfs
       breadthFirstSearch or bfs
 
-
-    Note: You should NOT change any code in SearchAgent
     """
 
     def __init__(self, fn='depthFirstSearch', prob='PositionSearchProblem', heuristic='nullHeuristic'):
@@ -115,8 +113,6 @@ class PositionSearchProblem(search.SearchProblem):
     to a particular point on the pacman board.
 
     The state space consists of (x,y) positions in a pacman game.
-
-    Note: this search problem is fully specified; you should NOT change it.
     """
 
     def __init__(self, gameState, costFn = lambda x: 1, goal=(1,1), start=None, warn=True, visualize=True):
