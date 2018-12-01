@@ -61,7 +61,7 @@ if __name__ == '__main__':
                 solver = getattr(solver, args.algorithm)(cube)
                 solver.solve()
                 result = solver.getResult()
-                print('Solved! Solution length: {}, Solution: {}, Node Expaned: {}'.format(
+                print('Solved! Solution length: {}, Solution: {}, Node Expanded: {}'.format(
                     len(result), '->'.join(result), solver.getNodeExpanded()
                 ))
                 # Start GUI and run instructions
