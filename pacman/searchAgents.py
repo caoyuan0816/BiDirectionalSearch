@@ -227,7 +227,7 @@ def euclideanHeuristic(position, problem, info={}):
     xy2 = problem.goal
     return ( (xy1[0] - xy2[0]) ** 2 + (xy1[1] - xy2[1]) ** 2 ) ** 0.5
 
-def foodHeuristic(state, problem):
+def foodHeuristic(state, problem, type='goal'):
     """
     Your heuristic for the FoodSearchProblem goes here.
 
@@ -255,9 +255,10 @@ def foodHeuristic(state, problem):
     Subsequent calls to this heuristic can access
     problem.heuristicInfo['wallCount']
     """
-    position = state
-    # Using mazeDistance function
-    return mazeDistance(position, problem.goal, problem.startingGameState)
+    if type == 'goal':
+        return mazeDistance(state, problem.goal, problem.startingGameState)
+    else:
+        return mazeDistance(state, problem.startState, problem.startingGameState)
 
 def mazeDistance(point1, point2, gameState):
     """
