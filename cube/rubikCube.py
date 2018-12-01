@@ -22,6 +22,7 @@ Optional arguments:
 
 import os
 import argparse
+import time
 
 from cube import Cube
 import interface
@@ -42,7 +43,7 @@ parser.add_argument('algorithm', choices=['BFS', 'DFS', 'AS', 'BI'],
 args = parser.parse_args()
 
 if __name__ == '__main__':
-    print('Test file path: {}'.format(
+    print('Test folder path: {}'.format(
         TEST_PATH
     ))
     print('Running parameters: {}, layout: {}, algorithm: {}\n'.format(
@@ -59,16 +60,37 @@ if __name__ == '__main__':
                 # Try to solve current cube
                 print('Solving it using {} algorithm...'.format(args.algorithm))
                 solver = getattr(solver, args.algorithm)(cube)
+
+                start = time.time()
                 solver.solve()
+                end = time.time()
+
                 result = solver.getResult()
-                print('Solved! Solution length: {}, Solution: {}, Node Expanded: {}'.format(
-                    len(result), '->'.join(result), solver.getNodeExpanded()
+                print('Data: {}, Algorithm: {}, Solution: {}, # Node Expanded: {}, Time Used: {}'.format(
+                    args.layout, args.algorithm, '->'.join(result), solver.getNodeExpanded(), end-start
                 ))
                 # Start GUI and run instructions
                 interface.runSingleTest(cube, result, 0.3)
             # Multi mode
             else:
-                pass
+                print('Loaded layout: {}\n'.format(args.layout))
+                for layout in data.readlines():
+                    layout = layout.strip('\n\r')
+                    name, layout = layout.split(':')
+                    cube = Cube(layout)
+                    # Try to solve current cube
+                    s = getattr(solver, args.algorithm)(cube)
+
+                    start = time.time()
+                    s.solve()
+                    end = time.time()
+
+                    result = s.getResult()
+                    print('Data: {}, Algorithm: {}, Solution: {}, # Node Expanded: {}, Time Used: {}'.format(
+                        name, args.algorithm, '->'.join(result), s.getNodeExpanded(), end-start
+                    ))
+                    # Start GUI and run instructions
+                    #interface.runSingleTest(cube, result, 0.3)
 
     except IOError:
         print('Error: Cannot open layout file {}'.format(

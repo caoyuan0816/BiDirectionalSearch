@@ -36,7 +36,7 @@ def generateRandomLayout(operationLength):
     cube = Cube()
     for i in range(operationLength):
         rand = random.randint(0, 11)
-        print(ops[rand])
+        #print(ops[rand])
         getattr(cube, ops[rand])()
     return str(cube.getLayout())
 
@@ -49,12 +49,18 @@ def generateRandomSingleTest(operationLength, testName):
     with open(TEST_PATH + '/' + testName, 'w') as output:
         output.write(layout)
 
+def generateRandomMultiTest(operationLength, length, testName):
+    base = 'rand_' + str(operationLength) + '_'
+    with open(TEST_PATH + '/' + testName, 'w') as output:
+        for i in range(length):
+            name = base + str(i+1)
+            layout = generateRandomLayout(operationLength)
+            output.write(name+':'+layout+'\n')
+
+
 if __name__ == '__main__':
-    generateRandomSingleTest(12, 'rand_12_2')
-    #generateRandomSingleTest(12, 'rand_12_1')
-    #generateRandomSingleTest(9, 'rand_12_2')
-    #generateRandomSingleTest(24, 'rand_12_3')
-    #generateRandomSingleTest(100, 'rand_12_4')
+    #generateRandomSingleTest(1, 'rand_1_1')
+    generateRandomMultiTest(1, 6, 'multi_rand_1')
 
 
 class PriorityQueue:
