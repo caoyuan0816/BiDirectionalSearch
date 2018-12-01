@@ -72,8 +72,8 @@ class Interface(Frame):
                         [[(160, 280), (200, 280), (240, 280)],
                          [(160, 320), (200, 320), (240, 320)],
                          [(160, 360), (200, 360), (240, 360)]]]
-        self.cubeColor = {'r': 'red', 'b': 'blue', 'y': 'yellow', 'w': 'white',
-                          'o': 'orange', 'g': 'green'}
+        self.cubeColor = {1: 'green', 2: 'blue', 3: 'red', 4: 'orange',\
+                          5: 'white', 6: 'yellow'}
         for x in range(6):
             for y in range(3):
                 for z in range(3):

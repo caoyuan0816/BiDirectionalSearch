@@ -18,6 +18,9 @@ ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
 os.chdir(ROOT_PATH)
 TEST_PATH = ROOT_PATH + '/test'
 
+dcti = {'g': 1, 'b': 2, 'r': 3, 'o': 4, 'w': 5, 'y': 6}
+ditc = {1: 'g', 2: 'b', 3: 'r', 4: 'o', 5: 'w', 6: 'y'}
+
 def generateRandomLayout(operationLength):
     """
     Generate a random rubik's cube layout by random operations.
@@ -35,12 +38,7 @@ def generateRandomLayout(operationLength):
         rand = random.randint(0, 11)
         print(ops[rand])
         getattr(cube, ops[rand])()
-    layout = []
-    for i in range(6):
-        for j in range(3):
-            for k in range(3):
-                layout.append(cube.cube[i][j][k])
-    return ','.join(layout)
+    return str(cube.getLayout())
 
 def generateRandomSingleTest(operationLength, testName):
     """
@@ -52,7 +50,7 @@ def generateRandomSingleTest(operationLength, testName):
         output.write(layout)
 
 if __name__ == '__main__':
-    generateRandomSingleTest(8, 'rand_8_1')
+    generateRandomSingleTest(3, 'rand_3_1')
     #generateRandomSingleTest(12, 'rand_12_1')
     #generateRandomSingleTest(9, 'rand_12_2')
     #generateRandomSingleTest(24, 'rand_12_3')

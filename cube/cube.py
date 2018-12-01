@@ -38,22 +38,24 @@ class Cube:
 
         # init cube
         if layout is None:
-            self.cube = [[['g', 'g', 'g'], ['g', 'g', 'g'], ['g', 'g', 'g']],
-                         [['b', 'b', 'b'], ['b', 'b', 'b'], ['b', 'b', 'b']],
-                         [['r', 'r', 'r'], ['r', 'r', 'r'], ['r', 'r', 'r']],
-                         [['o', 'o', 'o'], ['o', 'o', 'o'], ['o', 'o', 'o']],
-                         [['w', 'w', 'w'], ['w', 'w', 'w'], ['w', 'w', 'w']],
-                         [['y', 'y', 'y'], ['y', 'y', 'y'], ['y', 'y', 'y']]]
+            self.cube = [[[1, 1, 1], [1, 1, 1], [1, 1, 1]],
+                         [[2, 2, 2], [2, 2, 2], [2, 2, 2]],
+                         [[3, 3, 3], [3, 3, 3], [3, 3, 3]],
+                         [[4, 4, 4], [4, 4, 4], [4, 4, 4]],
+                         [[5, 5, 5], [5, 5, 5], [5, 5, 5]],
+                         [[6, 6, 6], [6, 6, 6], [6, 6, 6]]]
         else:
-            if len(layout) != 107:
+            layout = str(layout)
+            if len(layout) != 54:
                 raise ValueError('input layout invalid.')
             else:
                 self.cube = []
-                layout = layout.split(',')
                 for i in range(6):
                     self.cube.append([])
                     for j in range(3):
-                        self.cube[i].append(layout[i*9+j*3:i*9+(j+1)*3])
+                        self.cube[i].append([])
+                        for k in range(3):
+                            self.cube[i][j].append(int(layout[i*9+j*3+k]))
 
 
     def __str__(self):
@@ -109,13 +111,18 @@ class Cube:
             pos = neighbors[side][i]
             self.cube[pos[0]][pos[1]][pos[2]] = value[i]
 
-    def getLayoutStr(self):
-        res = []
+
+    def getLayout(self):
+        """
+        """
+        res = 0
         for i in range(6):
             for j in range(3):
                 for k in range(3):
-                    res.append(self.cube[i][j][k])
-        return ','.join(res)
+                    res += self.cube[i][j][k]
+                    res *= 10
+        return res // 10
+
 
     def F(self):
         """

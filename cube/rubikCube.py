@@ -54,8 +54,8 @@ if __name__ == '__main__':
             # Single mode
             if args.mode == 'single':
                 layout = data.readline().strip('\n\r')
-                cube = Cube(layout)
                 print('Loaded layout: {}: {}\n'.format(args.layout, layout))
+                cube = Cube(layout)
                 # Try to solve current cube
                 print('Solving it using {} algorithm...'.format(args.algorithm))
                 solver = solver.BFS(cube)

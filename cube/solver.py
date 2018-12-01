@@ -52,8 +52,8 @@ class BFS(Solver):
     def solve(self):
         from collections import deque
 
-        visited = set([self.cube.getLayoutStr()])
-        que = deque([(self.cube.getLayoutStr(), '')])
+        visited = set([self.cube.getLayout()])
+        que = deque([(self.cube.getLayout(), '')])
 
         while len(que) != 0:
             cur_layout, cur_ops = que.popleft()
@@ -65,7 +65,7 @@ class BFS(Solver):
 
             for o in range(12):
                 getattr(cur_cube, self.ops[o])()
-                layout = cur_cube.getLayoutStr()
+                layout = cur_cube.getLayout()
                 if layout not in visited:
                     que.append((layout, cur_ops+self.ops[o]))
                     visited.add(layout)
@@ -82,7 +82,7 @@ class DFS(Solver):
     def solve(self, visited=None, cube=None, ops=''):
         if cube is None:
             cube = copy.deepcopy(self.cube)
-            visited = set(cube.getLayoutStr())
+            visited = set(cube.getLayout())
 
         if cube.isSolved():
             self.result = ops
@@ -90,7 +90,7 @@ class DFS(Solver):
 
         for o in range(12):
             getattr(cube, self.ops[o])()
-            layout = cube.getLayoutStr()
+            layout = cube.getLayout()
             if layout not in visited:
                 visited.add(layout)
                 if self.solve(visited, cube, ops+self.ops[o]):
