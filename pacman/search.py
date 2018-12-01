@@ -166,13 +166,38 @@ def aStarSearch(problem, heuristic):
     return []
 
 
-def biDirectionalSearchMM0(problem, heuristic):
+def biDirectionalSearchMM0(problem):
     """
     """
-    heuristic = None
-    pass
+    from util import Queue
+    que1, que2 = Queue(), Queue()
+    visited1, visited2 = set(), set()
+
+    startState = problem.getStartState()
+
+    # Init queue and visited set
+    que1.push((startState, []))
+
+    que2.push(())
+    visited1.add(startState)
+    visited2.add()
+
+    while not queue.isEmpty():
+        cur_state, path = queue.pop()
+        if problem.isGoalState(cur_state):
+            return path
+        # Avoid repeat visitting same node
+        valid_neighbor = filter(lambda x: x[0] not in visited, problem.getSuccessors(cur_state))
+        for nxt in valid_neighbor:
+            queue.push((nxt[0], path + [nxt[1]]))
+            visited.add(nxt[0])
+    # If no valid path can be found, return empty path
+    return []
+
 
 def biDirectionalSearchMM(problem, heuristic):
+    """
+    """
     pass
 
 # Abbreviations
