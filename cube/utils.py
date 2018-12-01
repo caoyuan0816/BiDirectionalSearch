@@ -50,7 +50,7 @@ def generateRandomSingleTest(operationLength, testName):
         output.write(layout)
 
 if __name__ == '__main__':
-    generateRandomSingleTest(3, 'rand_3_1')
+    generateRandomSingleTest(5, 'rand_5_1')
     #generateRandomSingleTest(12, 'rand_12_1')
     #generateRandomSingleTest(9, 'rand_12_2')
     #generateRandomSingleTest(24, 'rand_12_3')

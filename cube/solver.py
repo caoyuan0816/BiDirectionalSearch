@@ -64,6 +64,9 @@ class BFS(Solver):
                 return True
 
             for o in range(12):
+                # Pruning
+                if len(cur_ops) != 0 and self.rops[o] == cur_ops[-1]:
+                    continue
                 getattr(cur_cube, self.ops[o])()
                 layout = cur_cube.getLayout()
                 if layout not in visited:
@@ -109,65 +112,9 @@ class BI(Solver):
 
 class AS(Solver):
     """
-    A * solver.
+    Astar solver.
     """
-    def solve(self):
-        # TODO
-
-        queue = utils.PriorityQueue()
-        visited = []
-        solution = []
-        queue.append(copy.deepcopy(self.cube), heuristic(self.cube))
-
-        while len(queue) != 0:
-
-            cur = queue.pop()
-            visited.append(copy.deepcopy(self.cube))
-
-            if cur.isSolved():
-                solution_str = ','.join(solution)
-
-                return solution_str
-
-
-            for op in self.ops:
-                op
-                if self.cube not in visited:
-                    solution.append(op)
-                    queue.append(copy.deepcopy(self.cube), heuristic(self.cube))
-
-                else:
-                    #reverse
-                    op
-                    op
-                    op
-
-                # check reverse ops
-                for op in self.ops:
-                    op
-                    op
-                    op
-                    if self.cube not in visited:
-                        solution.append(op)
-                        queue.append(copy.deepcopy(self.cube))
-
-                    else:
-                        # reverse
-                        op
-
-        return
-        #pass
-
-
-
-
-
-
-    """
-    count how many cubes are different with cube[i][1][1]
-    """
-
-    def heuristic(cube):
+    def __heuristic(self, cube):
         count = 0
         for i in range(6):
             color = cube[i][1][1]
@@ -176,3 +123,31 @@ class AS(Solver):
                     if cube[i][j][k] != color:
                         count += 1
         return count
+
+    def solve(self):
+        import heapq
+
+        pq = [(self.__heuristic(self.cube), self.cube.getLayout(), '', 0)]
+        visited = set([self.cube.getLayout()])
+
+        while len(pq) != 0:
+            h, cur_layout, cur_ops, g = heapq.heappop(pq)
+            cur_cube = Cube(cur_layout)
+
+            if self.__heuristic(cur_cube) == 0:
+                self.result = cur_ops
+                return True
+
+            for o in range(12):
+                # Pruning
+                if len(cur_ops) != 0 and self.rops[o] == cur_ops[-1]:
+                    continue
+                getattr(cur_cube, self.ops[o])()
+                layout = cur_cube.getLayout()
+                if layout not in visited:
+                    heap.heappush(pq, (self.__heuristic(cur_cube)+g, layout, cur_ops+self.ops[o], g+1))
+                    visited.add(layout)
+                getattr(cur_cube, self.rops[o])()
+
+        self.result = None
+        return False
