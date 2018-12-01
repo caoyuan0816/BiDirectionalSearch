@@ -22,6 +22,7 @@ class Solver:
     """
     def __init__(self, cube):
         self.cube = cube
+        self.expanded = 0
         self.ops = ['F', 'B', 'R', 'L', 'U', 'D', 'rF', 'rB', 'rR', 'rL', 'rU', 'rD']
         self.rops = ['rF', 'rB', 'rR', 'rL', 'rU', 'rD', 'F', 'B', 'R', 'L', 'U', 'D']
 
@@ -44,6 +45,9 @@ class Solver:
                 i += 1
         return res
 
+    def getNodeExpanded(self):
+        return self.expanded
+
 
 class BFS(Solver):
     """
@@ -61,6 +65,7 @@ class BFS(Solver):
 
             if cur_cube.isSolved():
                 self.result = cur_ops
+                self.expanded = len(visited)
                 return True
 
             for o in range(12):
@@ -82,24 +87,31 @@ class DFS(Solver):
     """
     DFS solver.
     """
-    def solve(self, visited=None, cube=None, ops=''):
-        if cube is None:
-            cube = copy.deepcopy(self.cube)
-            visited = set(cube.getLayout())
+    def solve(self):
+        visited = set([self.cube.getLayout()])
+        stack = [(self.cube.getLayout(), '')]
 
-        if cube.isSolved():
-            self.result = ops
-            return True
+        while len(stack) != 0:
+            cur_layout, cur_ops = stack.pop()
+            cur_cube = Cube(cur_layout)
 
-        for o in range(12):
-            getattr(cube, self.ops[o])()
-            layout = cube.getLayout()
-            if layout not in visited:
-                visited.add(layout)
-                if self.solve(visited, cube, ops+self.ops[o]):
-                    return True
-                #visited.remove(layout)
-            getattr(cube, self.rops[o])()
+            if cur_cube.isSolved():
+                self.result = cur_ops
+                self.expanded = len(visited)
+                return True
+
+            for o in range(12):
+                # Pruning
+                if len(cur_ops) != 0 and self.rops[o] == cur_ops[-1]:
+                    continue
+                getattr(cur_cube, self.ops[o])()
+                layout = cur_cube.getLayout()
+                if layout not in visited:
+                    stack.append((layout, cur_ops+self.ops[o]))
+                    visited.add(layout)
+                getattr(cur_cube, self.rops[o])()
+
+        self.result = None
         return False
 
 
@@ -117,10 +129,10 @@ class AS(Solver):
     def __heuristic(self, cube):
         count = 0
         for i in range(6):
-            color = cube[i][1][1]
+            color = cube.cube[i][1][1]
             for j in range(3):
                 for k in range(3):
-                    if cube[i][j][k] != color:
+                    if cube.cube[i][j][k] != color:
                         count += 1
         return count
 
@@ -136,6 +148,7 @@ class AS(Solver):
 
             if self.__heuristic(cur_cube) == 0:
                 self.result = cur_ops
+                self.expanded = len(visited)
                 return True
 
             for o in range(12):
@@ -145,7 +158,7 @@ class AS(Solver):
                 getattr(cur_cube, self.ops[o])()
                 layout = cur_cube.getLayout()
                 if layout not in visited:
-                    heap.heappush(pq, (self.__heuristic(cur_cube)+g, layout, cur_ops+self.ops[o], g+1))
+                    heapq.heappush(pq, (self.__heuristic(cur_cube)+g, layout, cur_ops+self.ops[o], g+1))
                     visited.add(layout)
                 getattr(cur_cube, self.rops[o])()
 

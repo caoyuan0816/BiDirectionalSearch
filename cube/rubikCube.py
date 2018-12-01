@@ -58,11 +58,11 @@ if __name__ == '__main__':
                 cube = Cube(layout)
                 # Try to solve current cube
                 print('Solving it using {} algorithm...'.format(args.algorithm))
-                solver = solver.BFS(cube)
+                solver = getattr(solver, args.algorithm)(cube)
                 solver.solve()
                 result = solver.getResult()
-                print('Solved! Solution length: {}, Solution: {}'.format(
-                    len(result), '->'.join(result)
+                print('Solved! Solution length: {}, Solution: {}, Node Expaned: {}'.format(
+                    len(result), '->'.join(result), solver.getNodeExpanded()
                 ))
                 # Start GUI and run instructions
                 interface.runSingleTest(cube, result, 0.3)
