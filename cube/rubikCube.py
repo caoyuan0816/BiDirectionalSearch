@@ -59,10 +59,12 @@ if __name__ == '__main__':
                 cube = Cube(layout)
                 # Try to solve current cube
                 print('Solving it using {} algorithm...'.format(args.algorithm))
+                maxLengthDFS = int(args.layout.split('_')[-1])
+
                 solver = getattr(solver, args.algorithm)(cube)
 
                 start = time.time()
-                solver.solve()
+                solver.solve(maxLengthDFS) if args.algorithm == 'dfs' else solver.solver()
                 end = time.time()
 
                 result = solver.getResult()
@@ -74,6 +76,7 @@ if __name__ == '__main__':
             # Multi mode
             else:
                 print('Loaded layout: {}\n'.format(args.layout))
+                maxLengthDFS = int(args.layout.split('_')[-1])
                 s_node, s_time, i = 0, 0, 0
                 for layout in data.readlines():
                     layout = layout.strip('\n\r')
@@ -83,7 +86,7 @@ if __name__ == '__main__':
                     s = getattr(solver, args.algorithm)(cube)
 
                     start = time.time()
-                    s.solve()
+                    s.solve(maxLengthDFS) if args.algorithm == 'dfs' else s.solver()
                     end = time.time()
 
                     node, t = s.getNodeExpanded(), end-start

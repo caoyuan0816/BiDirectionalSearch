@@ -22,6 +22,7 @@ class Solver:
     """
     def __init__(self, cube):
         self.cube = cube
+        self.result = None
         self.expanded = 0
         self.ops = ['F', 'B', 'R', 'L', 'U', 'D', 'rF', 'rB', 'rR', 'rL', 'rU', 'rD']
         self.rops = ['rF', 'rB', 'rR', 'rL', 'rU', 'rD', 'F', 'B', 'R', 'L', 'U', 'D']
@@ -87,41 +88,29 @@ class depthFirstSearch(Solver):
     """
     DFS solver.
     """
-    def solve(self):
-        if self.cube.isSolved():
-            self.result = ''
+    def __helper(self, layout, ops, visited, level, maxLevel):
+        self.expanded += 1
+        cube = Cube(layout)
+        if cube.isSolved():
+            self.result = ''.join(ops)
             return True
+        if level == maxLevel:
+            return False
 
-        visited = set([self.cube.getLayout()])
-        stack = [self.cube.getLayout()]
-        ops = []
+        for o in range(12):
+            getattr(cube, self.ops[o])()
+            cur_layout = cube.getLayout()
+            if cur_layout not in visited:
+                visited.add(cur_layout)
+                if self.__helper(cur_layout, ops+[self.ops[o]], visited, level+1, maxLevel):
+                     return True
+                visited.remove(cur_layout)
+            getattr(cube, self.rops[o])()
 
-        while len(stack) != 0:
-            cur_layout = stack[-1]
-            cur_cube = Cube(cur_layout)
-            n_valid = 0
-
-            for o in range(11, -1, -1):
-                getattr(cur_cube, self.ops[o])()
-                layout = cur_cube.getLayout()
-                if layout not in visited:
-                    n_valid += 1
-                    if Cube(layout).isSolved():
-                        ops.append(self.ops[o])
-                        self.result = ''.join(ops)
-                        self.expanded = len(visited)
-                        return True
-                    visited.add(layout)
-                    stack.append(layout)
-                    ops.append(self.ops[o])
-                    break
-                getattr(cur_cube, self.rops[o])()
-            if n_valid == 0:
-                stack.pop()
-                ops.pop()
-
-        self.result = None
         return False
+
+    def solve(self, maxLevel):
+        return self.__helper(self.cube.getLayout(), [], set(), 0, maxLevel)
 
 
 class aStarSearch(Solver):
