@@ -49,7 +49,7 @@ class Solver:
         return self.expanded
 
 
-class BFS(Solver):
+class breadthFirstSearch(Solver):
     """
     BFS solver.
     """
@@ -83,7 +83,7 @@ class BFS(Solver):
         return False
 
 
-class DFS(Solver):
+class depthFirstSearch(Solver):
     """
     DFS solver.
     """
@@ -124,7 +124,7 @@ class DFS(Solver):
         return False
 
 
-class AS(Solver):
+class aStarSearch(Solver):
     """
     Astar solver.
     """
@@ -171,7 +171,7 @@ class AS(Solver):
         return False
 
 
-class BI(Solver):
+class biDirectionalSearchMM0(Solver):
     """
     Bi-directional Search solver
     MM0
@@ -228,3 +228,19 @@ class BI(Solver):
 
         self.result = None
         return False
+
+
+class biDirectionalSearchMM(Solver):
+    """
+    Bi-directional Search solver
+    MM0
+    """
+    def solve(self):
+        pass
+
+# Abbreviations
+bfs = breadthFirstSearch
+dfs = depthFirstSearch
+astar = aStarSearch
+bd0 = biDirectionalSearchMM0
+bd = biDirectionalSearchMM

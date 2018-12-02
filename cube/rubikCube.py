@@ -14,7 +14,7 @@ Usage:
 Positional arguments:
     mode [single | multi]
     layout [random | layoutName]
-    algorithm [BFS | DFS | AS | BI]
+    algorithm [bfs | dfs | astar | bd0 | bd]
 
 Optional arguments:
     -h, --help: to show help message
@@ -38,7 +38,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('mode', choices=['single', 'multi'], help='mode of current\
                     running, must be [single | multi].')
 parser.add_argument('layout', help='test layout name.')
-parser.add_argument('algorithm', choices=['BFS', 'DFS', 'AS', 'BI'],
+parser.add_argument('algorithm', choices=['bfs', 'dfs', 'astar', 'bd0', 'bd'],
                     help='algorithm used to solve current cube')
 args = parser.parse_args()
 
@@ -91,7 +91,6 @@ if __name__ == '__main__':
                     ))
                     # Start GUI and run instructions
                     #interface.runSingleTest(cube, result, 0.3)
-
     except IOError:
         print('Error: Cannot open layout file {}'.format(
             TEST_PATH + '/' + args.layout
