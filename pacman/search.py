@@ -228,38 +228,35 @@ def biDirectionalSearchMM(problem, heuristic):
     pq2.push((problem.goal, [], 0), heuristic(problem.goal, problem, 'start'))
     visited1[problem.getStartState()] = []
     visited2[problem.goal] = []
-    expanding_level1, expanding_level2 = 0, 0
 
     while True:
         if pq1.isEmpty():
             return []
-        while (not pq1.isEmpty()) and pq1.heap[0][2][2] == expanding_level1:
-            cur_state, path, level = pq1.pop()
+        cur_state, path, level = pq1.pop()
 
-            if problem.isGoalStateBi(cur_state, visited2):
-                return path + __reversedPath(visited2[cur_state])
+        if problem.isGoalStateBi(cur_state, visited2):
+            return path + __reversedPath(visited2[cur_state])
 
-            valid_neighbor = filter(lambda x: x[0] not in visited1, problem.getSuccessors(cur_state))
-            for nxt in valid_neighbor:
-                np = heuristic(nxt[0], problem, 'goal') + problem.getCostOfActions(path+[nxt[1]])
-                pq1.push((nxt[0], path+[nxt[1]], level+1), np)
-                visited1[nxt[0]] = path+[nxt[1]]
-        expanding_level1 += 1
+        valid_neighbor = filter(lambda x: x[0] not in visited1, problem.getSuccessors(cur_state))
+        for nxt in valid_neighbor:
+            np = heuristic(nxt[0], problem, 'goal') + problem.getCostOfActions(path+[nxt[1]])
+            pq1.push((nxt[0], path+[nxt[1]], level+1), np)
+            visited1[nxt[0]] = path+[nxt[1]]
 
         if pq2.isEmpty():
             return []
-        while (not pq2.isEmpty()) and pq2.heap[0][2][2] == expanding_level2:
-            cur_state, path, level = pq2.pop()
 
-            if problem.isGoalStateBi(cur_state, visited1):
-                return __reversedPath(visited1[cur_state]) + path
+        cur_state, path, level = pq2.pop()
 
-            valid_neighbor = filter(lambda x: x[0] not in visited2, problem.getSuccessors(cur_state))
-            for nxt in valid_neighbor:
-                np = heuristic(nxt[0], problem, 'start') + problem.getCostOfActions(path+[nxt[1]])
-                pq2.push((nxt[0], path+[nxt[1]], level+1), np)
-                visited2[nxt[0]] = path+[nxt[1]]
-        expanding_level2 += 1
+        if problem.isGoalStateBi(cur_state, visited1):
+            return __reversedPath(visited1[cur_state]) + path
+
+        valid_neighbor = filter(lambda x: x[0] not in visited2, problem.getSuccessors(cur_state))
+        for nxt in valid_neighbor:
+            np = heuristic(nxt[0], problem, 'start') + problem.getCostOfActions(path+[nxt[1]])
+            pq2.push((nxt[0], path+[nxt[1]], level+1), np)
+            visited2[nxt[0]] = path+[nxt[1]]
+
     return []
 
 # Abbreviations

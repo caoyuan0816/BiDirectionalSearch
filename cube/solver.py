@@ -235,8 +235,73 @@ class biDirectionalSearchMM(Solver):
     Bi-directional Search solver
     MM0
     """
+    def __heuristic(self, cube1, cube2=None):
+        if cube2 is None:
+            cube2 = Cube()
+        count = 0
+        for i in range(6):
+            for j in range(3):
+                for k in range(3):
+                    if cube1.cube[i][j][k] != cube2.cube[i][j][k]:
+                        count += 1
+        return count
+
+    def __cost(self, depth):
+        return depth*5
+
     def solve(self):
-        pass
+        import heapq
+
+        pq1 = [(self.__heuristic(self.cube), self.cube.getLayout(), '', 0)]
+        pq2 = [(self.__heuristic(Cube(), self.cube), Cube().getLayout(), '', 0)]
+
+        visited1, visited2 = {self.cube.getLayout(): ''}, {Cube().getLayout(): ''}
+
+        while True:
+            if len(pq1) == 0:
+                self.result = None
+                return False
+
+            _, cur_layout, cur_ops, level = heapq.heappop(pq1)
+            cur_cube = Cube(cur_layout)
+
+            if cur_layout in visited2:
+                self.result = cur_ops + visited2[cur_layout]
+                self.expanded = len(visited1) + len(visited2)
+                return True
+
+            for o in range(12):
+                getattr(cur_cube, self.ops[o])()
+                layout = cur_cube.getLayout()
+                if layout not in visited1:
+                    visited1[layout] = cur_ops+self.ops[o]
+                    np = self.__cost(level+1)+self.__heuristic(cur_cube)
+                    heapq.heappush(pq1, (np, layout, cur_ops+self.ops[o], level+1))
+                getattr(cur_cube, self.rops[o])()
+
+            if len(pq2) == 0:
+                self.result = None
+                return False
+
+            _, cur_layout, cur_ops, level = heapq.heappop(pq2)
+            cur_cube = Cube(cur_layout)
+
+            if cur_layout in visited1:
+                self.result = visited1[cur_layout] + cur_ops
+                self.expanded = len(visited1) + len(visited2)
+                return True
+
+            for o in range(12):
+                getattr(cur_cube, self.ops[o])()
+                layout = cur_cube.getLayout()
+                if layout not in visited2:
+                    visited2[layout] = self.rops[o]+cur_ops
+                    np = self.__cost(level+1)+self.__heuristic(cur_cube, self.cube)
+                    heapq.heappush(pq2, (np, layout, self.rops[o]+cur_ops, level+1))
+                getattr(cur_cube, self.rops[o])()
+
+        self.result = None
+        return False
 
 # Abbreviations
 bfs = breadthFirstSearch
