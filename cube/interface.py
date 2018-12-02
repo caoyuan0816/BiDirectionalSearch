@@ -29,7 +29,7 @@ class Interface(Frame):
         # Set title
         self.master.title('ASU CSE571 Rubik\'s Cube')
         # Set size of window
-        self.master.geometry("560x560+10+150")
+        self.master.geometry("560x440+10+150")
         # Disable resize
         self.master.resizable(False, False)
         self.pack()

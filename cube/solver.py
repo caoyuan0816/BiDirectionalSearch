@@ -138,6 +138,9 @@ class aStarSearch(Solver):
                         count += 1
         return count
 
+    def __cost(self, depth):
+        return depth*5
+
     def solve(self):
         import heapq
 
@@ -164,7 +167,7 @@ class aStarSearch(Solver):
                         self.expanded = len(visited)
                         return True
                     visited.add(layout)
-                    heapq.heappush(pq, (self.__heuristic(cur_cube)+g, layout, cur_ops+self.ops[o], g+1))
+                    heapq.heappush(pq, (self.__heuristic(cur_cube)+self.__cost(g+1), layout, cur_ops+self.ops[o], g+1))
                 getattr(cur_cube, self.rops[o])()
 
         self.result = None
