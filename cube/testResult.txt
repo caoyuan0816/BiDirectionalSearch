@@ -1,0 +1,5 @@
+Data: multi_rand_1, Algorithm: bfs, avg node expanded: 7, avg time: 0.815260410309 (ms)
+Data: multi_rand_2, Algorithm: bfs, avg node expanded: 62, avg time: 7.80958890915 (ms)
+Data: multi_rand_3, Algorithm: bfs, avg node expanded: 559, avg time: 74.3404173851 (ms)
+Data: multi_rand_4, Algorithm: bfs, avg node expanded: 4575, avg time: 576.656188965 (ms)
+Data: multi_rand_5, Algorithm: bfs, avg node expanded: 46232, avg time: 5822.83301353 (ms)

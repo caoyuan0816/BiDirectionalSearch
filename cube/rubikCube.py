@@ -86,7 +86,7 @@ if __name__ == '__main__':
                     s = getattr(solver, args.algorithm)(cube)
 
                     start = time.time()
-                    s.solve(maxLengthDFS) if args.algorithm == 'dfs' else s.solver()
+                    s.solve(maxLengthDFS) if args.algorithm == 'dfs' else s.solve()
                     end = time.time()
 
                     node, t = s.getNodeExpanded(), end-start
@@ -101,8 +101,8 @@ if __name__ == '__main__':
                     # Start GUI and run instructions
                     #interface.runSingleTest(cube, result, 0.3)
                 print()
-                print('Multi test finished, avg node expanded: {}, avg time: {} (ms)'.format(
-                    s_node / i, (s_time / i)*1000
+                print('Data: {}, Algorithm: {}, avg node expanded: {}, avg time: {} (ms)'.format(
+                    args.layout, args.algorithm, s_node / i, (s_time / i)*1000
                 ))
     except IOError:
         print('Error: Cannot open layout file {}'.format(
