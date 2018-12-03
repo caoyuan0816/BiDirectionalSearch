@@ -13,8 +13,6 @@ Including:
 import copy
 
 from cube import Cube
-import utils
-
 
 class Solver:
     """
