@@ -36,4 +36,4 @@ We provide a script `/pacman/generateTestData.py` to generate test data for Rubi
 - Yuan Cao [(@caoyuan0816)](https://github.com/caoyuan0816)
 - Zelin Bao [(@baozelin)](https://github.com/baozelin)
 - Yiru Hu [(@yiruhu)](https://github.com/yiruhu)
-- Yiting Lin [@Yiting027](yiting.lin027@gmail.com)
+- Yiting Lin [(@Yiting027)](https://github.com/Yiting027)
