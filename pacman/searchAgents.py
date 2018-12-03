@@ -22,6 +22,14 @@ depth first search (dfs), run the following command:
 
 Commands to invoke other search strategies can be found in the project
 description.
+
+--------------------------------------------------------------------------------
+Add by CSE571 Team project team:
+    We deleted or modified some agent classes and problem classes.
+    Make sure you only use agent: SearchAgent and problem: PositionSearchProblem.
+    We also deleted some layout files.
+    Make sure you only use layout: tinyMaze, smallMaze, mediumMaze and bigMaze.
+--------------------------------------------------------------------------------
 """
 
 from game import Directions
@@ -153,6 +161,9 @@ class PositionSearchProblem(search.SearchProblem):
         return isGoal
 
     def isGoalStateBi(self, state, visited):
+        """
+        A new isGoal() method used for bi-directonal search algorithm.
+        """
         isGoal = state in visited
 
         # For display purposes only

@@ -4,7 +4,7 @@ ASU CSE571 Artificial Intelligence Team Project.
 rubikCube.py
 --------------------------------------------------------------------------------
 Main entrance for Rubik's Cube project.
-There are three primary mode:
+There are two primary mode:
     - single test mode: run a single test using given algorithm. In that mode,
         the GUI will be automatically showed.
     - multitest mode: run a set of tests using given algorithm. In that mode,
@@ -13,7 +13,7 @@ There are three primary mode:
 Usage:
 Positional arguments:
     mode [single | multi]
-    layout [random | layoutName]
+    layout [layoutName]: default test file path is /cube/test
     algorithm [bfs | dfs | astar | bd0 | bd]
 
 Optional arguments:
@@ -51,6 +51,7 @@ if __name__ == '__main__':
     ))
 
     try:
+        # Open layout file
         with open(TEST_PATH + '/' + args.layout, 'r') as data:
             # Single mode
             if args.mode == 'single':

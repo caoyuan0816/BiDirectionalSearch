@@ -103,6 +103,9 @@ class Interface(Frame):
         exit()
 
 def runSingleTest(cube, instructions, interval):
+    """
+    Given solution's instruction list, show user step by step how to reach the goal.
+    """
     root = Tk()
     interface = Interface(root, cube)
     root.after(0, interface.runInstructions, instructions, interval)

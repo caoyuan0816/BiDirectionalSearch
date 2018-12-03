@@ -1,7 +1,7 @@
 """
 ASU CSE571 Artificial Intelligence Team Project.
 --------------------------------------------------------------------------------
-utils.py
+generateTestData.py
 --------------------------------------------------------------------------------
 Tools for rubik cube project.
 """
@@ -50,6 +50,10 @@ def generateRandomSingleTest(operationLength, testName):
         output.write(layout)
 
 def generateRandomMultiTest(operationLength, length, testName):
+    """
+    Using generateRandomLayout function to generate and store test cases to
+    TEST_PATH.
+    """
     base = 'rand_' + str(operationLength) + '_'
     with open(TEST_PATH + '/' + testName, 'w') as output:
         for i in range(length):

@@ -12,12 +12,12 @@ class Cube:
     Each row described the color of one side of cube, and these sides ordered by:
         Front -> Back -> Right -> Left -> Up -> Down
     Example:
-        [[[g, g, g], [g, g, g], [g, g, g]], //Front(Green)
-         [[b, b, b], [b, b, b], [b, b, b]], //Back(Blue)
-         [[r, r, r], [r, r, r], [r, r, r]], //Right(Red)
-         [[o, o, o], [o, o, o], [o, o, o]], //Left(Orange)
-         [[w, w, w], [w, w, w], [w, w, w]], //Up(White)
-         [[y, y, y], [y, y, y], [y, y, y]]] //Down(Yellow)
+        [[[1, 1, 1], [1, 1, 1], [1, 1, 1]], //Front(Green)
+         [[2, 2, 2], [2, 2, 2], [2, 2, 2]], //Back(Blue)
+         [[3, 3, 3], [3, 3, 3], [3, 3, 3]], //Right(Red)
+         [[4, 4, 4], [4, 4, 4], [4, 4, 4]], //Left(Orange)
+         [[5, 5, 5], [5, 5, 5], [5, 5, 5]], //Up(White)
+         [[6, 6, 6], [6, 6, 6], [6, 6, 6]]] //Down(Yellow)
         described a default rubik's cube.
         See: https://en.wikipedia.org/wiki/Rubik%27s_Cube
 
@@ -30,9 +30,8 @@ class Cube:
             layout: optional. Defualt value is None. User can provide a string
                 to describe the default layout of rubik's cube. We will not check
                 the validity of input layout, please make sure you input a valid
-                layout. Example: "g,g,g,g,g,g,g,g,g,b,b,b,b,b,b,b,b,b,r,r,r,r,r,
-                r,r,r,r,o,o,o,o,o,o,o,o,o,w,w,w,w,w,w,w,w,w,y,y,y,y,y,y,y,y,y" is
-                a valid layout. The order of rows must be same as the cube
+                layout. Example: "111111111222222222333333333444444444555555555666666666"
+                is a valid layout. The order of rows must be same as the cube
                 defination above.
         """
 
@@ -61,6 +60,7 @@ class Cube:
     def __str__(self):
         """
         Cube object to string.
+        Used to print cube object.
         """
         return str(self.cube)
 
@@ -114,6 +114,7 @@ class Cube:
 
     def getLayout(self):
         """
+        Return a single str value represent layout of current cube.
         """
         res = 0
         for i in range(6):

@@ -169,11 +169,17 @@ def aStarSearch(problem, heuristic):
 
 def biDirectionalSearchMM0(problem):
     """
+    Bi directional search - MM0.
+    Two simple BFS in both direction.
     """
     def __reversedPath(p):
+        """
+        Given a action list, return the reversed version of it.
+        """
         return [Directions.REVERSE[x] for x in p][::-1]
 
     from util import Queue
+    # Init two ques and visited sets.
     que1, que2 = Queue(), Queue()
     visited1, visited2 = dict(), dict()
 
@@ -183,29 +189,40 @@ def biDirectionalSearchMM0(problem):
     visited2[problem.goal] = ''
     expanding_level1, expanding_level2 = 0, 0
 
+    # Two simple BFS in each while round
     while True:
+        # First BFS, from start to goal
+        # Will expand one level of nodes
         if que1.isEmpty():
             return []
         while (not que1.isEmpty()) and que1.list[0][2] == expanding_level1:
+            # Get current state
             cur_state, path, level = que1.pop()
 
+            # Check result
             if problem.isGoalStateBi(cur_state, visited2):
                 return path + __reversedPath(visited2[cur_state])
 
+            # Expand valid neighbors
             valid_neighbor = filter(lambda x: x[0] not in visited1, problem.getSuccessors(cur_state))
             for nxt in valid_neighbor:
                 que1.push((nxt[0], path+[nxt[1]], level+1))
                 visited1[nxt[0]] = path+[nxt[1]]
         expanding_level1 += 1
 
+        # Second BFS, from foal to start
+        # Will expand one level of nodes
         if que2.isEmpty():
             return []
         while (not que2.isEmpty()) and que2.list[0][2] == expanding_level2:
+            # Get current state
             cur_state, path, level = que2.pop()
 
+            # Check result
             if problem.isGoalStateBi(cur_state, visited1):
                 return __reversedPath(visited1[cur_state]) + path
 
+            # Expand valid neighbors
             valid_neighbor = filter(lambda x: x[0] not in visited2, problem.getSuccessors(cur_state))
             for nxt in valid_neighbor:
                 que2.push((nxt[0], path+[nxt[1]], level+1))
@@ -216,11 +233,17 @@ def biDirectionalSearchMM0(problem):
 
 def biDirectionalSearchMM(problem, heuristic):
     """
+    Bi directional search - MM.
+    Two Astar search in two directions.
     """
     def __reversedPath(p):
+        """
+        Given a action list, return the reversed version of it.
+        """
         return [Directions.REVERSE[x] for x in p][::-1]
 
     from util import PriorityQueue
+    # Init two priority queues and visited dicts
     pq1, pq2 = PriorityQueue(), PriorityQueue()
     visited1, visited2 = dict(), dict()
 
@@ -229,7 +252,10 @@ def biDirectionalSearchMM(problem, heuristic):
     visited1[problem.getStartState()] = []
     visited2[problem.goal] = []
 
+    # Run two Astar search in each while round
     while True:
+        # First Astar search, from start to goal
+        # Only expand one node
         if pq1.isEmpty():
             return []
         cur_state, path, level = pq1.pop()
@@ -243,6 +269,8 @@ def biDirectionalSearchMM(problem, heuristic):
             pq1.push((nxt[0], path+[nxt[1]], level+1), np)
             visited1[nxt[0]] = path+[nxt[1]]
 
+        # Second Astar search, from goal to start
+        # Only expand one node
         if pq2.isEmpty():
             return []
 

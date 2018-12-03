@@ -1,5 +1,0 @@
-Data: multi_rand_1, Algorithm: dfs, avg node expanded: 8, avg time: 0.765252113342 (ms)
-Data: multi_rand_2, Algorithm: dfs, avg node expanded: 68, avg time: 7.02674388885 (ms)
-Data: multi_rand_3, Algorithm: dfs, avg node expanded: 709, avg time: 79.9466753006 (ms)
-Data: multi_rand_4, Algorithm: dfs, avg node expanded: 6715, avg time: 750.923511982 (ms)
-Data: multi_rand_5, Algorithm: dfs, avg node expanded: 80551, avg time: 8896.93357944 (ms)
